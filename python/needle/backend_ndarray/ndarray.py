@@ -262,7 +262,14 @@ class NDArray:
         """
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        old_dim=1
+        new_dim=1
+        for i in self.shape:
+            old_dim*=i
+        for i in new_shape:
+            new_dim*=i
+        if old_dim!=new_dim:
+            raise ValueError
         ### END YOUR SOLUTION
 
     def permute(self, new_axes: tuple[int, ...]) -> "NDArray":
