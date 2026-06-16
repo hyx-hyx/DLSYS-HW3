@@ -1,3 +1,4 @@
+from hmac import new
 import math
 import operator
 from functools import reduce
@@ -264,12 +265,19 @@ class NDArray:
         ### BEGIN YOUR SOLUTION
         old_dim=1
         new_dim=1
+        new_stride_list=[1]
         for i in self.shape:
             old_dim*=i
-        for i in new_shape:
+        for i in new_shape[::-1]:
             new_dim*=i
+            new_stride_list.append(new_dim)
+        
+        new_stride_list=new_stride_list[0:len(new_shape)][::-1]
         if old_dim!=new_dim:
             raise ValueError
+        return NDArray.make(
+            new_shape, strides=tuple(new_stride_list), device=self.device, handle=self._handle, offset=self._offset
+        )
         ### END YOUR SOLUTION
 
     def permute(self, new_axes: tuple[int, ...]) -> "NDArray":
