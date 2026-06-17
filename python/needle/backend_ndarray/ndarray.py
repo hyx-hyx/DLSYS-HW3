@@ -302,7 +302,17 @@ class NDArray:
         """
 
         ### BEGIN YOUR SOLUTION
-        raise NotImplementedError()
+        old_shape=self.shape
+        old_stride=self.strides
+        new_shape=[]
+        new_stride=[]
+        for i in range(len(new_axes)):
+            new_shape.append(old_shape[new_axes[i]])
+            new_stride.append(old_stride[new_axes[i]])
+            
+        return NDArray.make(
+            tuple(new_shape), strides=tuple(new_stride), device=self.device, handle=self._handle, offset=self._offset
+        )
         ### END YOUR SOLUTION
 
     def broadcast_to(self, new_shape: tuple[int, ...]) -> "NDArray":
